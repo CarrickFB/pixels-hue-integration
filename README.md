@@ -1,5 +1,8 @@
 # Pixels Dice Philips HUE Webhook integration
 
+https://github.com/CarrickFB/pixels-hue-integration/assets/7551917/31d5b364-6e10-4b31-855b-f6e72f09d8ab
+
+
 ### Intro ###
 
 This little script uses a Flask server to create a webhook listener that you can hit with your pixels die, and will 
