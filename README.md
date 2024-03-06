@@ -5,14 +5,14 @@ https://github.com/CarrickFB/pixels-hue-integration/assets/7551917/31d5b364-6e10
 
 ### Intro ###
 
-This little script uses a Flask server to create a webhook listener that you can hit with your pixels die, and will 
-Send commands to your HUE bridge to play a lighting effect on a NAT 1 or NAT 20. It's a pet project
-and I'm not a Python dev, so it's far from perfect, If my explanations of anything are incorrect please forgive me!
+This little script uses a Flask server to create a webhook listener that you can hit with your pixels die, and will use the HUE API
+to play a lighting effect on a NAT 1 or NAT 20. 
+It's a pet project and I'm not a Python dev so it's far from perfect, If my explanations of anything are incorrect please forgive me!
 
-However feel free to take, edit and improve it as you wish so long as you continue
+Feel free to take, edit and improve it as you wish so long as you continue
 to share it with other users/devs. 
 
-Hope you enjoy it! 
+Hope you enjoy! 
 
 <3 -Carrick FB
 
