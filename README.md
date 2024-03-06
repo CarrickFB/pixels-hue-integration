@@ -16,7 +16,7 @@ Hope you enjoy it!
 
 Requirements: 
 - Python
-- A Pixels Die (https://gamewithpixels.com/)
+- A Pixels D20 (https://gamewithpixels.com/)
 - Philips Hue Lighting (with access to the API)
 
 The server will run on localhost of the device you run this script on through port 5000.
