@@ -175,7 +175,7 @@ def nat_20_rainbow_fade(lights):
     except Exception as e:
         logger.error("Error during rainbow fade effect: %s", e)
 
-# The light effect for a NAT 20, It uses the HUE api to strobe flash your lights red for the duration of the EFFECT_TIME
+# The light effect for a NAT 1, It uses the HUE api to strobe flash your lights red for the duration of the EFFECT_TIME
 # Alter this if you want to change the lighting effect
 def nat_1_red_strobe(lights):
     try:
