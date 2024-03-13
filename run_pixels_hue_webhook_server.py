@@ -22,7 +22,7 @@ HUE_GROUP_NAME = "<HUE_GROUP_NAME>"
 
 # How long you want the effect to last. It's not an exact science and will probably run for about 2 seconds longer, so bear
 # That in mind
-EFFECT_TIME = 3  
+EFFECT_TIME = 5  
 
 
 # Configure logging
@@ -153,25 +153,38 @@ def handle_webhook(payload):
     except Exception as e:
         logger.error("Error handling webhook: %s", e)
         
-# The light effect for a NAT 20, It uses the HUE api to fade your lights in a rainbow colour for the duration of the EFFECT_TIME
-# Alter this if you want to change the lighting effect
+# Function takes in an array of lights and starts a unique thread for each calling fade_light_rainbow, allowing them
+# to execute individually rather than as a part of the same loop
 def nat_20_rainbow_fade(lights):
     try:
         logger.info("Fading rainbow lights")
-            
         start_time = time.time()
-        
-        while time.time() - start_time < EFFECT_TIME:
-            for light in lights:
-                # Random hue value for random colors
-                random_hue = random.randint(0, 65535)
-                set_hue_light_state(light, hue=random_hue, bri=255, sat=254)
-        time.sleep(1)
+        threads = []
 
+        for light in lights:
+            # Create a new thread for each light
+            thread = threading.Thread(target=fade_light_rainbow, args=(light, start_time))
+            threads.append(thread)
+            thread.start()
+
+        # Wait for all threads to complete
+        for thread in threads:
+            thread.join()
 
         logger.info("Rainbow fading complete")
     except Exception as e:
         logger.error("Error during rainbow fade effect: %s", e)
+
+# Function for individual thread to control fade lighting. This contains the actual effects
+def fade_light_rainbow(light, start_time):
+    while time.time() - start_time < EFFECT_TIME:
+        try:
+            # Random hue value for random colors
+            random_hue = random.randint(0, 65535)
+            set_hue_light_state(light, hue=random_hue, bri=255, sat=254, transition_time=0.6)
+            time.sleep(0.7)
+        except Exception as e:
+            logger.error("Error fading light: %s", e)
 
 # The light effect for a NAT 1, It uses the HUE api to strobe flash your lights red for the duration of the EFFECT_TIME
 # Alter this if you want to change the lighting effect
