@@ -47,3 +47,6 @@ on your network. I used a rasberry pi hardwired to my router, so needed to do th
 
 The lighting effects are sent in ```nat_20_rainbow_fade()``` and ```nat_1_red_strobe()```, and they are called via the webhook_handler conditional.
 If you want to add or edit any effects, those are the places to look
+
+NOTE: ```nat_20_rainbow_fade()``` No longer calls the hue api, instead it takes each individual light and creates a thread so each can execute the function individually, 
+rather than using the same loop and tripping over each other. The lighting effect for the rainbow is now sent in ```fade_light_rainbow```
