@@ -130,22 +130,20 @@ def handle_webhook(payload):
         logger.info("Handling webhook")
         data = json.loads(payload)
         logger.info(f"Received payload: {data}")
-        pixel_name = data.get("pixelName")
-        profile_name = data.get("profileName")
         face_value = data.get("faceValue")
-        logger.info(f"Pixel name: {pixel_name}, Profile name: {profile_name}, Face value: {face_value}")
-
-        # Uncomment if you do not know your hue group names, then hit the endpoint and they will display in the shell.
-        # print_all_group_names() 
         
         lights = get_initial_lights_state(HUE_GROUP_NAME)
         initial_state = get_initial_lights_state(HUE_GROUP_NAME)
         
+        logger.info(f"Face value: {face_value}")
 
         if face_value == 20:
+            logger.info("Natural 20!!!!")
             nat_20_rainbow_fade(lights)
         elif face_value == 1:
+            logger.info("Natural 1...")
             nat_1_red_strobe(lights)
+
   
         else:
             logger.info("Invalid face value: %s", face_value)
@@ -154,7 +152,7 @@ def handle_webhook(payload):
         restore_group_lights_state(HUE_GROUP_NAME, initial_state)
     except Exception as e:
         logger.error("Error handling webhook: %s", e)
-
+        
 # The light effect for a NAT 20, It uses the HUE api to fade your lights in a rainbow colour for the duration of the EFFECT_TIME
 # Alter this if you want to change the lighting effect
 def nat_20_rainbow_fade(lights):
@@ -192,15 +190,37 @@ def nat_1_red_strobe(lights):
     except Exception as e:
         logger.error("Error during red strobe effect: %s", e)
         
-# The endpoint itself.
+# The endpoint itself. This can now accept either a JSON payload or query parameters matching the format
+# specified in the Pixels app.
 @app.route("/critroll", methods=["POST"])
 def webhook():
     try:
         payload = request.json
         if payload:
+            # If JSON payload is present, process it
             threading.Thread(target=handle_webhook, args=(json.dumps(payload),)).start()
-            logger.info("Webhook received: %s", payload)
-        return "Webhook received", 200
+            logger.info("Webhook hit with JSON Payload: %s", payload)
+            return "Webhook received", 200
+        else:
+            # If no JSON payload, extract query parameters
+            pixelName = request.args.get("value1")
+            actionValue = request.args.get("value2")
+            faceValue = int(request.args.get("value3"))
+            profileName = request.args.get("value4")
+
+            # Create a dictionary containing the query parameters
+            query_params = {
+                "pixelName": pixelName,
+                "actionValue": actionValue,
+                "faceValue": faceValue,
+                "profileName": profileName
+            }
+
+            # Use the values as needed
+            threading.Thread(target=handle_webhook, args=(json.dumps(query_params),)).start()
+            logger.info("Webhook hit with query parameters: value1=%s, value2=%s, value3=%s, value4=%s",
+                        pixelName, actionValue, faceValue, profileName)
+            return "Webhook received", 200
     except Exception as e:
         logger.error("Error processing webhook request: %s", e)
         return "Error processing webhook request", 500
