@@ -35,8 +35,10 @@ won't do anything
 Ensure you have python installed, Open a shell and head to the directory where the script it located. Use the following command to run it:
 ```python3 run_pixels_hue_webhook_server.py```
 
-In the pixels app, set the webhook target URL to be: ```http://<LOCAL_DEVICE_IP>:5000/critroll``` and ensure you are sending the payload as JSON by
-toggling it in the webhook setting.
+In the pixels app, set the webhook target URL to be: ```http://<LOCAL_DEVICE_IP>:5000/critroll```
+
+The script can now identify whether you are hitting the endpoint using a JSON payload or query parameters. So long as the structure of the request matches
+the ones outlined in the pixels app for JSON payloads or query params, it should work correctly. 
 
 If you hit test, and everything's working correctly, You should start seeing logs come through to your shell. If your lights fail to change, but 
 you're recieving logs, it may be you haven't configured your HUE IP or username correctly.
