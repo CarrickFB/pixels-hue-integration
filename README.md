@@ -42,8 +42,6 @@ the ones outlined in the pixels app for JSON payloads or query params, it should
 
 If you hit test, and everything's working correctly, You should start seeing logs come through to your shell. If your lights fail to change, but 
 you're recieving logs, it may be you haven't configured your HUE IP or username correctly.
-If you're failing to hit the endpoint, you may need to use port forwarding to open up the relevant port from your local device to other local devices
-on your network. I used a rasberry pi hardwired to my router, so needed to do that. 
 
 The lighting effects are sent in ```nat_20_rainbow_fade()``` and ```nat_1_red_strobe()```, and they are called via the webhook_handler conditional.
 If you want to add or edit any effects, those are the places to look
